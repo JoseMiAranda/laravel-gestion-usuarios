@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -15,6 +17,22 @@ class UserController extends Controller
 
     public function edit(Request $request, User $user) {
         return view('sections.edit', compact('user'));
+    }
+
+    public function create() {
+        $roles = Role::cases();
+        return view('sections.create', compact('roles'));
+    }
+
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed:password_confirmation'],
+            'role' => ['required', Rule::enum(Role::class)]
+        ]);
+        User::create($validated);
+        return redirect('/users');
     }
 
     public function update(Request $request, User $user) {

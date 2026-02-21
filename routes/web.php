@@ -16,6 +16,8 @@ Route::post('/login',  [SessionController::class, 'store']);
 Route::post('/logout',  [SessionController::class, 'destroy'])->name('logout');
 
 Route::get('/users', [UserController::class, 'index'])->middleware('auth', 'can:is-admin');
+Route::get('/users/create', [UserController::class, 'create'])->middleware('auth', 'can:is-admin');
+Route::post('/users/store', [UserController::class, 'store'])->middleware('auth', 'can:is-admin');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth', 'can:update,user');
 Route::put('/users/{user}/update', [UserController::class, 'update'])->middleware('auth', 'can:update,user');
 Route::delete('/users/{user}/destroy', [UserController::class, 'destroy'])->middleware('auth', 'can:delete,user');

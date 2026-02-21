@@ -63,7 +63,7 @@
 
         <div class="mt-6 flex items-center justify-end gap-x-6">
           <a href="/" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</a>
-          <input type="submit" value="Registro" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+          <input type="submit" value="Editar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
         </div>
       </form>
     </div>

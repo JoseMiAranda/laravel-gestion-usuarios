@@ -15,14 +15,13 @@ class RegisterController extends Controller
         $roles = Role::cases();
         return view('auth.register', compact('roles'));
     }
-
     public function store(Request $request) {
         $validated = $request->validate([
             'name' => 'required',
             'email' => 'required|email',
             'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed:password_confirmation'],
-            'role' => ['required', Rule::enum(Role::class)]
         ]);
+        $validated['role'] = Role::User;
         $user = User::create($validated);
         Auth::login($user);
         return redirect('/');

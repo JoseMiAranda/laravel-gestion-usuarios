@@ -35,22 +35,6 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
-                                <div class="mt-2">
-                                    <select name="role" id="role" required
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->value }}" @selected(old('role') === $role->value)>
-                                                    {{ $role->name }}</option>
-                                            @endforeach
-                                    </select>
-                                    @error('role')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
                                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                                 <div class="mt-2">
                                     <input type="password" name="password" id="password" required

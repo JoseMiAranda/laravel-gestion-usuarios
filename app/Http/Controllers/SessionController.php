@@ -13,7 +13,7 @@ class SessionController extends Controller
     }
 
     public function store(Request $request) {
-        $validated = $request([
+        $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);

@@ -10,7 +10,7 @@ use Illuminate\Validation\Rules\Password;
 class RegisterController extends Controller
 {
     public function create() {
-        return ('auth.register');
+        return view('auth.register');
     }
 
     public function register(Request $request) {

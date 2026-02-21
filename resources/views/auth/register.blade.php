@@ -1,4 +1,4 @@
-<form action="{{ route('auth.store') }}" method="post">
+<form action="/register" method="post">
     @csrf
     <label for="name">Nombre:</label>
     <input type="text" id="name" name="name" placeholder="Jhon Doe" value="{{ old('name') }}">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,5 +9,10 @@ Route::get('/', function () {
 });
 
 
-Route::get('/register',  [RegisterController::class, 'create'])->name('auth.create');
-Route::post('/register',  [RegisterController::class, 'store'])->name('auth.store');
+Route::get('/register',  [RegisterController::class, 'create'])->name('register');
+Route::post('/register',  [RegisterController::class, 'store']);
+
+Route::get('/login',  [SessionController::class, 'create'])->name('login');
+Route::post('/login',  [SessionController::class, 'store']);
+
+Route::post('/logout',  [SessionController::class, 'store'])->name('logout');

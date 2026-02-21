@@ -3,10 +3,11 @@
 <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div>
-        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Registro</h2>
+        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Editar</h2>
       </div>
-      <form method="POST" action="/edit">
+      <form method="POST" action="/users/{{ $user->id }}/update">
         @csrf
+        @method('put')
 
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">

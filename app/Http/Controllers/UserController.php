@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -13,13 +13,17 @@ class UserController extends Controller
         return view('sections.index', compact('users'));
     }
 
-    public function edit(Request $request, $id) {
-        if (!Gate::authorize('update', [$request->user(), $id])) {
-            abort(403);
-        }
-
-        $user = User::findOrFail($id);
-
+    public function edit(Request $request, User $user) {
         return view('sections.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user) {
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed:password_confirmation'],
+        ]);
+        $user->update($validated);
+        return redirect('/users');
     }
 }

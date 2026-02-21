@@ -16,3 +16,4 @@ Route::post('/login',  [SessionController::class, 'store']);
 Route::post('/logout',  [SessionController::class, 'destroy'])->name('logout');
 
 Route::get('/users', [UserController::class, 'index'])->middleware('auth', 'can:is-admin');
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])->middleware('auth');

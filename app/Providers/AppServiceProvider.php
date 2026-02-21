@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\Role;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 

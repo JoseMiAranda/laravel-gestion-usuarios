@@ -15,7 +15,7 @@ class UserPolicy
         //
     }
 
-    public function update(User $user, $id): bool {
-        return $user->role === Role::Admin || $user->id === $id;
+    public function update(User $loggedUser, User $user): bool {
+        return $loggedUser->role === Role::Admin || $loggedUser->id === $user->id;
     }
 }

@@ -18,4 +18,8 @@ class UserPolicy
     public function update(User $loggedUser, User $user): bool {
         return $loggedUser->role === Role::Admin || $loggedUser->id === $user->id;
     }
+
+    public function delete(User $loggedUser, User $user): bool {
+        return $loggedUser->role === Role::Admin && $loggedUser->id !== $user->id;
+    }
 }

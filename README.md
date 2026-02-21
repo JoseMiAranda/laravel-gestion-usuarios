@@ -1,59 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gestión de Usuarios
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una aplicación web desarrollada en **Laravel** para la gestión integral de usuarios. Incluye un sistema de autenticación completo y un panel de administración para el control de los usuarios con acceso basado en roles y políticas de seguridad.
 
-## About Laravel
+## Características Principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Autenticación Clásica**: Registro, inicio de sesión (Login) y cierre de sesión (Logout).
+- **CRUD de Usuarios**: Creación, listado, actualización y eliminación de usuarios.
+- **Control de Acceso (Autorización)**: Distinción de acciones permitidas entre usuarios estándar y administradores.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Validaciones de Rutas y Middleware
 
-## Learning Laravel
+En el proyecto, la protección de las rutas web (`routes/web.php`) se lleva a cabo mediante el uso de **Middleware** y del sistema de autorización de Laravel (**Gates / Policies**). Esto asegura que solo las personas adecuadas interactúen con partes específicas de la aplicación.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Las validaciones principales son:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Validación de Autenticación (`auth`)
+Impide el acceso a usuarios visitantes que no hayan iniciado sesión.
+- **Uso:** `->middleware('auth')`
+- **Comportamiento:** Si un usuario no autenticado intenta entrar a una ruta protegida (como el listado de usuarios), será redirigido automáticamente a la página de `/login`.
 
-## Laravel Sponsors
+### 2. Validación de Rol de Administrador (`can:is-admin`)
+Comprueba mediante un `Gate` definido en la aplicación si el usuario autenticado tiene un perfil o rol de administrador.
+- **Uso:** `->middleware('can:is-admin')`
+- **Rutas protegidas:** Listado general de usuarios (`/users`), formulario de creación (`/users/create`) y el procesamiento para guardar nuevos usuarios (`/users/store`).
+- **Comportamiento:** Retorna un error de prohibición (403 Forbidden) si un usuario normal intenta acceder.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Validación de Políticas de Modelo (`can:update,user` y `can:delete,user`)
+Verifica una "Policy" específica que evalúa si el usuario autenticado tiene los derechos para realizar una acción sobre el modelo `User` en cuestión. Generalmente permite a un usuario editar su propio perfil o a un administrador gestionar cualquier perfil.
+- **Protección de Edición:** `->middleware('can:update,user')` aplicada a `/users/{user}/edit` y al método `update`.
+- **Protección de Eliminación:** `->middleware('can:delete,user')` aplicada a la ruta de `destroy`.
+- **Comportamiento:** Si el usuario no tiene permisos sobre el usuario que intenta modificar o eliminar, accederá a una página de error 403.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Requisitos
 
-## Contributing
+- PHP >= 8.1
+- Composer
+- Laravel Herd o entorno local similar para el servidor web y base de datos (XAMPP, Docker, Valet, etc.)
+- Node.js & NPM (para compilar los assets con Vite)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalación y Configuración
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Instala las dependencias del backend con Composer:
+   ```bash
+   composer install
+   ```
+2. Instala y compila las dependencias del frontend con NPM:
+   ```bash
+   npm install
+   npm run build
+   ```
+3. Copia el archivo `.env.example` a un nuevo archivo `.env` y configura el acceso a tu base de datos:
+   ```bash
+   cp .env.example .env
+   ```
+4. Genera la clave de encriptación de Laravel:
+   ```bash
+   php artisan key:generate
+   ```
+5. Ejecuta las migraciones para crear la estructura de la base de datos (y los seeders si has configurado usuarios por defecto):
+   ```bash
+   php artisan migrate --seed
+   ```

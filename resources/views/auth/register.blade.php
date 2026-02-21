@@ -1,37 +1,71 @@
-<form action="/register" method="post">
-    @csrf
-    <label for="name">Nombre:</label>
-    <input type="text" id="name" name="name" placeholder="Jhon Doe" value="{{ old('name') }}">
-    @error('name')
-        <p>{{ $message }}</p>
-    @enderror
-    <br>
+@extends('layout.app')
+@section('content')
+<div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md space-y-8">
+      <div>
+        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Registro</h2>
+      </div>
+      <form method="POST" action="/register">
+        @csrf
 
-    <label for="email">Correo electrónico: </label>
-    <input type="email" id="email" name="email" placeholder="jhon@email.com" value="{{ old('email') }}">
-    @error('email')
-        <p>{{ $message }}</p>
-    @enderror
-    <br>
+        <div class="space-y-12">
+          <div class="border-b border-gray-900/10 pb-12">
+            <div class="flex flex-col gap-3">
 
-    <label for="password">Contraseña</label>
-    <input type="password" id="password" name="password">
-    @error('password')
-        <p>{{ $message }}</p>
-    @enderror
-    <br>
+                <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <div class="mt-2">
+                        <input type="text" name="name" id="name" value="{{ old('name')}}" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        @error('name')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-    <label for="password_confirmation">Confirmar Contraseña</label>
-    <input type="password" id="password_confirmation" name="password_confirmation">
-    <br>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <div class="mt-2">
+                        <input type="email" name="email" id="email" value="{{ old('email')}}" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-    <label for="role">Rol</label>
-    <select id="role" name="role">
-        @foreach ($roles as $role)
-            <option value="{{ $role->value }}" @selected(old('role') === $role->value)>{{ $role->name }}</option>
-        @endforeach
-    </select>
-    <br>
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="mt-2">
+                        <input type="password" name="password" id="password" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-    <button>Registrarse</button>
-</form>
+                <div class="mb-4">
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Repite el Password</label>
+                    <div class="mt-2">
+                        <input type="password" name="password_confirmation" id="password_confirmation" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        @error('password_confirmation')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <a href="/" class="text-sm font-semibold leading-6 text-gray-900">Cancelar</a>
+          <input type="submit" value="Registro" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+        </div>
+      </form>
+    </div>
+  </div>
+@endsection

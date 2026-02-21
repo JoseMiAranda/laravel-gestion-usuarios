@@ -43,9 +43,9 @@
                 @endcan
 
                 @can('is-user')
-                    <a href="/users/2"
+                    <a href="/users/{{ auth()->user()->id }}/edit"
                         class="{{ $currentRoute === 'usuarios' ? 'text-orange-300 font-semibold' : 'hover:text-orange-300' }}">
-                        Ver perfil
+                        Editar perfil
                     </a>
                 @endcan
 

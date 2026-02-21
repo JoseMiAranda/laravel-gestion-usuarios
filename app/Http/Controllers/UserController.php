@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
@@ -42,7 +43,8 @@ class UserController extends Controller
             'password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed:password_confirmation'],
         ]);
         $user->update($validated);
-        return redirect('/users');
+        if($request->user()->can('is-admin')) return redirect('/users');
+        return redirect('/');
     }
 
     public function destroy(User $user) {

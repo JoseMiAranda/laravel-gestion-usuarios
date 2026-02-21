@@ -25,5 +25,13 @@
     <input type="password" id="password_confirmation" name="password_confirmation">
     <br>
 
+    <label for="role">Rol</label>
+    <select id="role" name="role">
+        @foreach ($roles as $role)
+            <option value="{{ $role->value }}" @selected(old('role') === $role->value)>{{ $role->name }}</option>
+        @endforeach
+    </select>
+    <br>
+
     <button>Registrarse</button>
 </form>
